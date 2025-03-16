@@ -1,0 +1,28 @@
+{% extends "base.twig" %}
+
+{% block styles %}
+    {{ parent() }}
+    <link href="/css/blog.css" type="text/css" rel="stylesheet" />
+    <link href="/css/web.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block nav %}
+     <nav>
+        <ul class="navigation">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About</a></li>
+            {% if profile == "Invitado" %}
+                <li><a href="/login">Login</a></li>
+            {% else %}
+                <li><a href="/contact">Contactos</a></li>
+                <li><a href="/admin">Admin</a></li>
+                <li><a href="/logout">Logout</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endblock %}
+
+
+{% block sidebar %}
+  {{ include("sidebar.twig", { data: data }) }}
+{% endblock %}

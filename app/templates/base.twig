@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html"; charset="utf-8" />
+        {% block styles %}
+            <link href='http://fonts.googleapis.com/css?family=Irish+Grover' rel='stylesheet' type='text/css'>
+            <link href='http://fonts.googleapis.com/css?family=La+Belle+Aurore' rel='stylesheet' type='text/css'>
+            <link href="/css/screen.css" type="text/css" rel="stylesheet" />
+            <link href="/css/sidebar.css" type="text/css" rel="stylesheet" />
+            <link rel="shortcut icon" href="img/favicon.ico" />
+        {% endblock %}
+    </head>
+    <body>
+        <section id="wrapper">
+            <header id="header">
+                <div class="top">
+                    {% block nav %}
+                    {% endblock %}
+                </div>
+                <hgroup>
+                    <h2><a href="http://symblog.local/">symblog Carlos Borreguero Redondo</a></h2>
+                    <h3><a href="http://symblog.local/">creating a blog in Symfony2</a></h3>
+                </hgroup>
+            </header>   
+            <section class="main-col">
+                {% block body %}
+                {% endblock %}
+            </section>
+            <aside class="sidebar">
+                {% block sidebar %}
+                {% endblock %}
+            </aside>
+            <div id="footer">
+                dwes symblog - created by <a href="#">Carlos Borreguero Redondo</a>
+            </div>
+        </section>
+    </body>
+</html>

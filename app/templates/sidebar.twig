@@ -1,0 +1,27 @@
+<section class="section">
+    <header>
+        <h3>Tag Cloud</h3>
+    </header>
+    <p class="tags">
+        {% for tag in data.tags %}
+            <span class="badge bg-primary">{{ tag }}</span>
+        {% endfor %}
+    </p>
+</section>
+
+<section class="section">
+    <header>
+        <h3>Latest Comments</h3>
+    </header>
+    {% for comment in data.comments %}
+        <article class="comment">
+            <header>
+                <p class="small">
+                    <span class="highlight">{{ comment.user }}</span> commented on
+                    <a href="http://symblog.local/show?id={{ comment.blog_id }}">{{ comment.blog.title }}</a>
+                </p>
+            </header>
+            <p>{{ comment.comment }}</p>
+        </article>
+    {% endfor %}
+</section>

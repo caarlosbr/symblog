@@ -1,0 +1,62 @@
+{% extends "layout.twig" %}
+
+
+{% block body %}
+    <article class="blog-detail">
+        <div class="date">
+            <time datetime="{{ blog.created_at | date('c') }}">
+                {{ blog.created_at | date('l, F j, Y') }}
+            </time>
+        </div>
+        <header>
+            <h1>{{ blog.title }}</h1>
+        </header>
+        <img src="uploads/{{ blog.image }}" alt="{{ blog.title }}"/>
+        <div class="content">
+            <p>{{ blog.blog }}</p>
+        </div>
+        <footer class="meta">
+            <p>Posted by <span class="highlight">{{ blog.author }}</span> at {{ blog.created_at }}</p>
+            <p>Tags: <span class="highlight">{{ blog.tags }}</span></p>
+        </footer>
+        
+        <!-- Comments Section -->
+        <section class="comments">
+            <h3>Comments</h3>
+            {% for comment in comments %}
+                <div class="comment {% if loop.index is odd %}odd{% endif %}">
+                    <p><strong>{{ comment.user }}</strong>: {{ comment.comment }}</p>
+                    <p class="comment-date">{{ comment.created_at | date('l, F j, Y') }}</p>
+                </div>
+            {% endfor %}
+        </section>
+        
+        <!-- Comment Form -->
+        <section class="comment-form">
+            <h2 style="text-align:center;">Publica tu comentario</h2>
+            <form action="/postComment" method="POST">
+                <input type="hidden" name="blog_id" value="{{ blog.id }}"/>
+
+                {# Si el perfil NO es 'Invitado', pide el nombre; si no, lo fijas a 'Anonimo' #}
+                {% if profile != "Invitado" %}
+                    <div class="form-group">
+                        <label for="user">Usuario:</label>
+                        <input type="text" id="user" name="user" required />
+                    </div>
+                {% else %}
+                    <input type="hidden" name="user" value="Anonimo" />
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="comment">Comentario:</label>
+                    <textarea id="comment" name="comment" rows="4" required></textarea>
+                </div>
+                <button type="submit">Publicar comentario</button>
+            </form>
+        </section>
+    </article>
+{% endblock %}
+
+{% block sidebar %}
+  {% include 'sidebar.twig' %}
+{% endblock %}
