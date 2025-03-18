@@ -12,14 +12,14 @@ class UsersController extends BaseController
     // Obtiene datos comunes (blogs, comments, tags)
     public function getData()
     {
-        $blogs    = Blog::orderBy('created_at', 'desc')->get();
+        $blogs    = Blog::orderBy('created_at', 'desc')->get(); // Los blogs, desc para los más recientes
         $comments = Comment::orderBy('created_at', 'desc')->take(5)->get();
         $tags     = Blog::distinct()->pluck('tags');
 
         // Si hay userId en sesión, busca el usuario
         $user = null;
-        if (isset($_SESSION['userId'])) {
-            $user = User::find($_SESSION['userId']);
+        if (isset($_SESSION['userId'])) { // Si hay un ID de usuario en sesión
+            $user = User::find($_SESSION['userId']); // Busca el usuario, y lo guarda en $user
         }
 
         return [
@@ -44,6 +44,7 @@ class UsersController extends BaseController
     // Procesa el formulario de login
     public function loginAction($reqMethod)
     {
+
         // Array para guardar datos de la vista
         $data = [];
 
@@ -137,10 +138,10 @@ class UsersController extends BaseController
     public function adminAction()
     {
         // Verificamos si está autenticado
-        if ($_SESSION['auth'] == true) {
-            $data = $this->getData();
-            echo $this->twig->render('admin.twig', [
-                'data'    => $data,
+        if ($_SESSION['auth'] == true) { // Si está autenticado
+            $data = $this->getData(); // Obtiene los datos comunes
+            echo $this->twig->render('admin.twig', [ // Renderiza la vista de admin
+                'data'    => $data, 
                 'profile' => $_SESSION['perfil'] ?? 'Invitado'
             ]);
         } else {

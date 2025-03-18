@@ -1,5 +1,7 @@
 <?php
-session_start();
+/* session_start();
+ */
+// SI no hay una sesión iniciada, se crea una con el valor de autenticación en falso y con perfil de invitado
 if (!isset($_SESSION['auth']) || $_SESSION['auth'] === false) {
   $_SESSION['auth'] = false;
   $_SESSION['perfil'] = 'Invitado';
@@ -27,37 +29,34 @@ $routerContainer = new RouterContainer();
 $map = $routerContainer->getMap();
 
 // Rutas funcionando de blogs
-$map->get('home', '/', ['controller' => BlogsController::class, 'action' => "indexAction", 'auth' => false]);
-$map->get('about', '/about', ['controller' => BlogsController::class, 'action' => 'aboutAction', 'auth' => false]);
-$map->get('addblog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction', 'auth' => true]);
-$map->post('saveBlog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction', 'auth' => true]);
-$map->get('contact', '/contact', ['controller' => BlogsController::class, 'action' => 'contactAction', 'auth' => false]);
-$map->get('show', '/show', ['controller' => BlogsController::class, 'action' => 'showAction', 'auth' => false]);
-$map->post('AgregarComentario', '/postComment', ['controller' => BlogsController::class, 'action' => 'addCommentAction', 'auth' => false]);
-$map->get('loginForm', '/login', ['controller' => UsersController::class, 'action' => 'loginFormAction','auth' => false]);
-$map->post('login', '/login', ['controller' => UsersController::class,'action' => 'loginAction','auth' => false]);
-$map->get('CerrarSesion', '/logout', ['controller' => UsersController::class, 'action' => 'cerrarSesion', 'auth' => true]);
-$map->get("formuser", "/register", ['controller' => UsersController::class,'action' => 'registrar', 'auth' => false]);
-$map->post("registrar", "/register", ['controller' => UsersController::class,'action' => 'registrar', 'auth' => false]);
-$map->get("admin", "/admin", ['controller' => UsersController::class,'action' => 'adminAction', 'auth' => true]);
+$map->get('home', '/', ['controller' => BlogsController::class, 'action' => "indexAction", 'auth' => false]);  // Ruta para la página principal
+$map->get('about', '/about', ['controller' => BlogsController::class, 'action' => 'aboutAction', 'auth' => false]); // Ruta para la página 'Acerca de'
+$map->get('addblog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction', 'auth' => true]); // Ruta para agregar un blog
+$map->post('saveBlog', '/addblog', ['controller' => BlogsController::class, 'action' => 'addBlogAction', 'auth' => true]); // Ruta para guardar un blog
+$map->get('contact', '/contact', ['controller' => BlogsController::class, 'action' => 'contactAction', 'auth' => false]); // Ruta para la página de contacto
+$map->get('show', '/show', ['controller' => BlogsController::class, 'action' => 'showAction', 'auth' => false]); // Ruta para mostrar un blog
+$map->post('AgregarComentario', '/postComment', ['controller' => BlogsController::class, 'action' => 'addCommentAction', 'auth' => false]); // Ruta para agregar un comentario
+$map->get('loginForm', '/login', ['controller' => UsersController::class, 'action' => 'loginFormAction','auth' => false]); // Ruta para mostrar el formulario de login
+$map->post('login', '/login', ['controller' => UsersController::class,'action' => 'loginAction','auth' => false]); // Ruta para procesar el login
+$map->get('CerrarSesion', '/logout', ['controller' => UsersController::class, 'action' => 'cerrarSesion', 'auth' => true]);  // Ruta para cerrar sesión
+$map->get("formuser", "/register", ['controller' => UsersController::class,'action' => 'registrar', 'auth' => false]); // Ruta para mostrar el formulario de registro
+$map->post("registrar", "/register", ['controller' => UsersController::class,'action' => 'registrar', 'auth' => false]); // Ruta para procesar el registro
+$map->get("admin", "/admin", ['controller' => UsersController::class,'action' => 'adminAction', 'auth' => true]); // Ruta para la página de administración
 
 
 
-
-
-// Obtener el matcher de Aura Router y hacer coincidir la ruta
-$matcher = $routerContainer->getMatcher();
+$matcher = $routerContainer->getMatcher(); // Crear el matcher, getMatcher() es para obtener el matcher
 $route = $matcher->match($request);
 
 if (!$route) {
   error_log('Error de ruta: ' . $request->getMethod() . ' ' . $request->getUri()->getPath());
   echo 'Error de ruta';
 } else {
-  $handlerData = $route->handler;
-  $controllerName = $handlerData['controller'];
-  $actionName = $handlerData['action'];
-  $needsAuth = $handlerData['auth'] ?? false;
-  $sessionAuth = $_SESSION['auth'] ?? false;
+  $handlerData = $route->handler; // Obtener los datos del controlador y la acción
+  $controllerName = $handlerData['controller']; // Obtener el nombre del controlador
+  $actionName = $handlerData['action']; // Obtener el nombre de la acción
+  $needsAuth = $handlerData['auth'] ?? false; // Obtener si la ruta requiere autenticación 
+  $sessionAuth = $_SESSION['auth'] ?? false;  // Obtener si el usuario está autenticado
 
 
   // Redirigir a login si la ruta requiere autenticación y el usuario no está autenticado

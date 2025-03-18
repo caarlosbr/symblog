@@ -3,7 +3,8 @@
         <h3>Tag Cloud</h3>
     </header>
     <p class="tags">
-        {% for tag in data.tags %}
+        {# Inicio del bucle para mostrar las tags #}
+        {% for tag in data.tags %} 
             <span class="badge bg-primary">{{ tag }}</span>
         {% endfor %}
     </p>
@@ -13,6 +14,8 @@
     <header>
         <h3>Latest Comments</h3>
     </header>
+
+    {# Inicio del bucle para mostrar los comentarios #}
     {% for comment in data.comments %}
         <article class="comment">
             <header>

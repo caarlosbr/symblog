@@ -1,4 +1,5 @@
 <?php 
+session_start();
     require 'vendor/autoload.php'; 
     use Dotenv\Dotenv;
     use Illuminate\Database\Capsule\Manager as Capsule;
